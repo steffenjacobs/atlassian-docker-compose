@@ -1,12 +1,12 @@
 # Atlassian Docker Compose
 
-This contains a docker-compose configuration Atlassian JIRA, Confluence, Bitbucket and Bamboo running with separate databases on PostgreSQL. Each application comes with it's own user and database and docker volume. 
+This contains a [docker-compose](https://docs.docker.com/compose/) configuration Atlassian [JIRA](https://www.atlassian.com/software/jira), [Confluence](https://www.atlassian.com/software/confluence), [Bitbucket](https://www.atlassian.com/software/bitbucket) and [Bamboo](https://www.atlassian.com/software/bamboo) running with separate databases on [PostgreSQL](https://www.postgresql.org/). Each application comes with it's own user, database and docker volume. 
 
 ## Requirements
-This application needs `git` and `docker-compose`
+This application needs `git` and `docker-compose` to be installed:
 
-    sudo apt get install docker-compose --y
-    sudo apt-get install git --y
+    sudo apt get install docker-compose -y
+    sudo apt-get install git -y
 
 ## Getting started
 1. `git clone https://github.com/steffenjacobs/atlassian-docker-compose.git`
@@ -34,3 +34,4 @@ During configuration of the applications via the setup procedure, use the follow
     database user password: <password specified in init.sql>
 
 To fully clean reset an application, you have to delete the associated docker volume and clean the associated database.
+
