@@ -1,0 +1,77 @@
+version: '3.4'
+services:
+  jira:
+    image: atlassian/jira-software:8.6.0
+    container_name: jira
+    volumes:
+      - jira-data:/var/atlassian/application-data/jira
+    ports:
+      - 8001:8080
+    networks:
+      - atl-back
+      - atl-front
+
+  confluence:
+    image: atlassian/confluence-server:6.13.10
+    ports:
+      - 8002:8090
+      - 8012:8091
+    links:
+      - atl_database
+    volumes:
+      - confluence-data:/var/atlassian/application-data/confluence
+    networks:
+      - atl-back
+      - atl-front
+
+  bitbucket:
+    image: atlassian/bitbucket-server:7.1-jdk11
+    ports:
+      - 8003:7990
+      - 8013:7999
+    links:
+      - atl_database
+    volumes:
+      - bitbucket-data:/var/atlassian/application-data/bitbucket
+    networks:
+      - atl-back
+      - atl-front
+
+  bamboo:
+    image: atlassian/bamboo-server:7.0.2
+    ports:
+      - 8014:54663
+      - 8004:8085
+    links:
+      - atl_database
+    volumes:
+      - bamboo-data:/var/atlassian/application-data/bamboo
+    networks:
+      - atl-back
+      - atl-front
+
+  atl_database:
+    image: postgres:12.2
+    ports:
+      - 5431:5432
+    volumes:
+      - atl_database-data:/var/lib/postgresql/data      
+      - ./pg-init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - atl-back
+    environment:    
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+
+volumes:
+  jira-data:
+  confluence-data:
+  bitbucket-data:
+  bamboo-data:
+  atl_database-data:
+
+networks:  
+  atl-back:
+    driver: bridge
+  atl-front:
+    driver: bridge
